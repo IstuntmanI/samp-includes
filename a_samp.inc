@@ -1,6 +1,6 @@
-/*  SA:MP Functions
+/*  SA-MP Functions
  *
- *  (c) Copyright 2005-2006, SA:MP Team
+ *  (c) Copyright 2005-2009, SA-MP Team
  *
  */
 
@@ -24,6 +24,26 @@
 #include <a_vehicles>
 #include <a_objects>
 #include <a_sampdb>
+
+// Limits and internal constants
+#define MAX_PLAYER_NAME							(24)
+#define MAX_PLAYERS								(500)
+#define MAX_VEHICLES							(2000)
+#define INVALID_PLAYER_ID						(0xFFFF)
+#define INVALID_VEHICLE_ID						(0xFFFF)
+#define NO_TEAM									(255)
+#define MAX_OBJECTS								(254)
+#define INVALID_OBJECT_ID						(255)
+#define MAX_GANG_ZONES							(1024)
+#define MAX_TEXT_DRAWS							(2048)
+#define MAX_MENUS								(128)
+#define MAX_3DTEXT_GLOBAL						(1024)
+#define MAX_3DTEXT_PLAYER						(1024)
+#define MAX_PICKUPS								(2048)
+#define INVALID_MENU							(0xFF)
+#define INVALID_TEXT_DRAW						(0xFFFF)
+#define INVALID_GANG_ZONE						(-1)
+#define INVALID_3DTEXT_ID						(0xFFFF)
 
 // --------------------------------------------------
 // Natives
@@ -60,11 +80,11 @@ native AddPlayerClass(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, Floa
 native AddPlayerClassEx(teamid, modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:z_angle, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
 native AddStaticVehicle(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:z_angle, color1, color2);
 native AddStaticVehicleEx(modelid, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:z_angle, color1, color2, respawn_delay);
-native AddStaticPickup(model,type,Float:X,Float:Y,Float:Z);
-native CreatePickup(model, type, Float:X, Float:Y, Float:Z);
+native AddStaticPickup(model, type, Float:X, Float:Y, Float:Z, virtualworld = 0);
+native CreatePickup(model, type, Float:X, Float:Y, Float:Z, virtualworld = 0);
 native DestroyPickup(pickup);
 native ShowNameTags(show);
-native ShowPlayerMarkers(show);
+native ShowPlayerMarkers(mode);
 native GameModeExit();
 native SetWorldTime(hour);
 native GetWeaponName(weaponid, const weapon[], len);
@@ -75,11 +95,15 @@ native SetGravity(Float:gravity);
 native AllowAdminTeleport(allow);
 native SetDeathDropAmount(amount);
 native CreateExplosion(Float:X, Float:Y, Float:Z, type, Float:Radius);
-native SetDisabledWeapons(...);
 native EnableZoneNames(enable);
 native UsePlayerPedAnims();		// Will cause the players to use CJ running/walking animations
 native DisableInteriorEnterExits();  // will disable all interior enter/exits in the game.
 native SetNameTagDrawDistance(Float:distance); // Distance at which nametags will start rendering on the client.
+native DisableNameTagLOS(); // Disables the nametag Line-Of-Sight checking
+
+// Npc
+native ConnectNPC(name[], script[]);
+native IsPlayerNPC(playerid);
 
 // Admin
 native IsPlayerAdmin(playerid);
@@ -124,7 +148,6 @@ native TextDrawHideForAll(Text:text);
 native TextDrawSetString(Text:text, string[]);
 
 // Gang Zones
-
 native GangZoneCreate(Float:minx, Float:miny, Float:maxx, Float:maxy);
 native GangZoneDestroy(zone);
 native GangZoneShowForPlayer(playerid, zone, color);
@@ -135,6 +158,25 @@ native GangZoneFlashForPlayer(playerid, zone, flashcolor);
 native GangZoneFlashForAll(zone, flashcolor);
 native GangZoneStopFlashForPlayer(playerid, zone);
 native GangZoneStopFlashForAll(zone);
+
+// Global 3D Text Labels
+native Text3D:Create3DTextLabel(text[], color, Float:X, Float:Y, Float:Z, Float:DrawDistance, virtualworld, testLOS=0);
+native Delete3DTextLabel(Text3D:id);
+native Attach3DTextLabelToPlayer(Text3D:id, playerid, Float:OffsetX, Float:OffsetY, Float:OffsetZ);
+native Attach3DTextLabelToVehicle(Text3D:id, vehicleid, Float:OffsetX, Float:OffsetY, Float:OffsetZ);
+native Update3DTextLabelText(Text3D:id, color, text[]);
+
+// Per-player 3D Text Labels
+native PlayerText3D:CreatePlayer3DTextLabel(playerid, text[], color, Float:X, Float:Y, Float:Z, Float:DrawDistance, attachedplayer=INVALID_PLAYER_ID, attachedvehicle=INVALID_VEHICLE_ID, testLOS=0);
+native DeletePlayer3DTextLabel(playerid, PlayerText3D:id);
+native UpdatePlayer3DTextLabelText(playerid, PlayerText3D:id, color, text[]);
+
+// Player GUI Dialog
+#define DIALOG_STYLE_MSGBOX		0
+#define DIALOG_STYLE_INPUT		1
+#define DIALOG_STYLE_LIST		2
+
+native ShowPlayerDialog(playerid, dialogid, style, caption[], info[], button1[], button2[]);
 
 // --------------------------------------------------
 // Defines
@@ -152,21 +194,10 @@ native GangZoneStopFlashForAll(zone);
 #define PLAYER_STATE_SPAWNED					(8)
 #define PLAYER_STATE_SPECTATING					(9)
 
-// Misc
-#define MAX_PLAYER_NAME							(24)
-#define MAX_PLAYERS								(200)
-#define MAX_VEHICLES							(700)
-#define INVALID_PLAYER_ID						(255)
-#define INVALID_VEHICLE_ID						(0xFFFF)
-#define NO_TEAM									(255)
-#define MAX_OBJECTS								(150)
-#define INVALID_OBJECT_ID						(255)
-#define MAX_GANG_ZONES							(1024)
-#define MAX_TEXT_DRAWS							(1024)
-#define MAX_MENUS								(128)
-#define INVALID_MENU							(0xFF)
-#define INVALID_TEXT_DRAW						(0xFFFF)
-#define INVALID_GANG_ZONE						(-1)
+// Marker modes used by ShowPlayerMarkers()
+#define PLAYER_MARKERS_MODE_OFF			(0)
+#define PLAYER_MARKERS_MODE_GLOBAL		(1)
+#define PLAYER_MARKERS_MODE_STREAMED	(2)
 
 // Weapons
 #define WEAPON_BRASSKNUCKLE				(1)
@@ -229,12 +260,12 @@ native GangZoneStopFlashForAll(zone);
 #define KEY_WALK				(1024)
 #define KEY_ANALOG_UP			(2048)
 #define KEY_ANALOG_DOWN			(4096)
-#define KEY_ANALOG_RIGHT		(16384)
 #define KEY_ANALOG_LEFT			(8192)
+#define KEY_ANALOG_RIGHT		(16384)
 
-#define KEY_UP					(65408)
+#define KEY_UP					(-128)
 #define KEY_DOWN				(128)
-#define KEY_LEFT				(65408)
+#define KEY_LEFT				(-128)
 #define KEY_RIGHT				(128)
 
 // --------------------------------------------------
@@ -253,7 +284,6 @@ forward OnVehicleSpawn(vehicleid);
 forward OnVehicleDeath(vehicleid, killerid);
 forward OnPlayerText(playerid, text[]);
 forward OnPlayerCommandText(playerid, cmdtext[]);
-forward OnPlayerInfoChange(playerid);
 forward OnPlayerRequestClass(playerid, classid);
 forward OnPlayerEnterVehicle(playerid, vehicleid, ispassenger);
 forward OnPlayerExitVehicle(playerid, vehicleid);
@@ -263,16 +293,27 @@ forward OnPlayerLeaveCheckpoint(playerid);
 forward OnPlayerEnterRaceCheckpoint(playerid);
 forward OnPlayerLeaveRaceCheckpoint(playerid);
 forward OnRconCommand(cmd[]);
-forward OnPlayerPrivmsg(playerid, recieverid, text[]);
 forward OnPlayerRequestSpawn(playerid);
 forward OnObjectMoved(objectid);
 forward OnPlayerObjectMoved(playerid, objectid);
 forward OnPlayerPickUpPickup(playerid, pickupid);
 forward OnVehicleMod(playerid, vehicleid, componentid);
+forward OnEnterExitModShop(playerid, enterexit, interiorid);
 forward OnVehiclePaintjob(playerid, vehicleid, paintjobid);
 forward OnVehicleRespray(playerid, vehicleid, color1, color2);
 forward OnPlayerSelectedMenuRow(playerid, row);
 forward OnPlayerExitedMenu(playerid);
 forward OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);
 forward OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
-forward OnPlayerUpdate(playerid); // called for every player network update. don't execute too much code in here. return 0 to prevent replication to other clients.
+forward OnRconLoginAttempt( ip[], password[], success );
+forward OnPlayerUpdate(playerid);
+forward OnPlayerStreamIn(playerid, forplayerid);
+forward OnPlayerStreamOut(playerid, forplayerid);
+forward OnVehicleStreamIn(vehicleid, forplayerid);
+forward OnVehicleStreamOut(vehicleid, forplayerid);
+forward OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]);
+
+#define CLICK_SOURCE_SCOREBOARD		0
+forward OnPlayerClickPlayer(playerid, clickedplayerid, source);
+
+// --------------------------------------------------
