@@ -1,6 +1,6 @@
 /*  SA-MP Vehicle Functions
  *
- *  (c) Copyright 2005-2010, SA-MP Team
+ *  (c) Copyright 2005-2011, SA-MP Team
  *
  */
 

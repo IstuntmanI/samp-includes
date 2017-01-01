@@ -1,6 +1,6 @@
 /*  SA-MP Player Functions
  *
- *  (c) Copyright 2005-2010, SA-MP Team
+ *  (c) Copyright 2005-2011, SA-MP Team
  *
  */
 
@@ -75,6 +75,7 @@ native GetPlayerArmour(playerid, &Float:armour);
 native SetPlayerAmmo(playerid, weaponslot, ammo);
 native GetPlayerAmmo(playerid);
 native GetPlayerWeaponState(playerid);
+native GetPlayerTargetPlayer(playerid);
 native SetPlayerTeam(playerid, teamid);
 native GetPlayerTeam(playerid);
 native SetPlayerScore(playerid,score);
@@ -111,14 +112,17 @@ native GetPlayerFightingStyle(playerid);
 native SetPlayerVelocity(playerid, Float:X, Float:Y, Float:Z);
 native GetPlayerVelocity( playerid, &Float:X, &Float:Y, &Float:Z );
 native PlayCrimeReportForPlayer(playerid, suspectid, crime);
+native PlayAudioStreamForPlayer(playerid, url[], Float:posX = 0.0, Float:posY = 0.0, Float:posZ = 0.0, Float:distance = 50.0, usepos = 0);
+native StopAudioStreamForPlayer(playerid);
 native SetPlayerShopName(playerid, shopname[]);
 native SetPlayerSkillLevel(playerid, skill, level);
 native GetPlayerSurfingVehicleID(playerid);
 native GetPlayerSurfingObjectID(playerid);
+native RemoveBuildingForPlayer(playerid, modelid, Float:fX, Float:fY, Float:fZ, Float:fRadius);
 
 // Attached to bone objects
 
-#define MAX_PLAYER_ATTACHED_OBJECTS 5 // This is the number of attached indexes available ie 5 = 0-4
+#define MAX_PLAYER_ATTACHED_OBJECTS 10 // This is the number of attached indexes available ie 10 = 0-9
 
 native SetPlayerAttachedObject(playerid, index, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0, Float:fScaleX = 1.0, Float:fScaleY = 1.0, Float:fScaleZ = 1.0);
 native RemovePlayerAttachedObject(playerid, index);

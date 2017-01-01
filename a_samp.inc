@@ -1,6 +1,6 @@
 /*  SA-MP Functions
  *
- *  (c) Copyright 2005-2010, SA-MP Team
+ *  (c) Copyright 2005-2011, SA-MP Team
  *
  */
 
@@ -32,14 +32,14 @@
 #define INVALID_PLAYER_ID						(0xFFFF)
 #define INVALID_VEHICLE_ID						(0xFFFF)
 #define NO_TEAM									(255)
-#define MAX_OBJECTS								(400)
+#define MAX_OBJECTS								(1000)
 #define INVALID_OBJECT_ID						(0xFFFF)
 #define MAX_GANG_ZONES							(1024)
 #define MAX_TEXT_DRAWS							(2048)
 #define MAX_MENUS								(128)
 #define MAX_3DTEXT_GLOBAL						(1024)
 #define MAX_3DTEXT_PLAYER						(1024)
-#define MAX_PICKUPS								(2048)
+#define MAX_PICKUPS								(4096)
 #define INVALID_MENU							(0xFF)
 #define INVALID_TEXT_DRAW						(0xFFFF)
 #define INVALID_GANG_ZONE						(-1)
@@ -178,6 +178,7 @@ native UpdatePlayer3DTextLabelText(playerid, PlayerText3D:id, color, text[]);
 #define DIALOG_STYLE_MSGBOX		0
 #define DIALOG_STYLE_INPUT		1
 #define DIALOG_STYLE_LIST		2
+#define DIALOG_STYLE_PASSWORD	3
 
 native ShowPlayerDialog(playerid, dialogid, style, caption[], info[], button1[], button2[]);
 
@@ -265,6 +266,9 @@ native ShowPlayerDialog(playerid, dialogid, style, caption[], info[], button1[],
 #define KEY_ANALOG_DOWN			(4096)
 #define KEY_ANALOG_LEFT			(8192)
 #define KEY_ANALOG_RIGHT		(16384)
+#define KEY_YES					(65536)
+#define KEY_NO					(131072)
+#define KEY_CTRL_BACK			(262144)
 
 #define KEY_UP					(-128)
 #define KEY_DOWN				(128)
@@ -317,6 +321,9 @@ forward OnPlayerStreamOut(playerid, forplayerid);
 forward OnVehicleStreamIn(vehicleid, forplayerid);
 forward OnVehicleStreamOut(vehicleid, forplayerid);
 forward OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]);
+forward OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid);
+forward OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid);
+forward OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ);
 
 #define CLICK_SOURCE_SCOREBOARD		0
 forward OnPlayerClickPlayer(playerid, clickedplayerid, source);
