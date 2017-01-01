@@ -32,6 +32,7 @@ native IsVehicleStreamedIn(vehicleid, forplayerid);
 native GetVehiclePos(vehicleid, &Float:x, &Float:y, &Float:z);
 native SetVehiclePos(vehicleid, Float:x, Float:y, Float:z);
 native GetVehicleZAngle(vehicleid, &Float:z_angle);
+native GetVehicleRotationQuat(vehicleid, &Float:w, &Float:x, &Float:y, &Float:z);
 native SetVehicleZAngle(vehicleid, Float:z_angle);
 native SetVehicleParamsForPlayer(vehicleid,playerid,objective,doorslocked);
 native SetVehicleToRespawn(vehicleid);
@@ -53,6 +54,7 @@ native GetVehicleComponentType(component); // Find CARMODTYPE_* for component id
 native RepairVehicle(vehicleid); // Repairs the damage model and resets the health
 native GetVehicleVelocity(vehicleid, &Float:X, &Float:Y, &Float:Z);
 native SetVehicleVelocity(vehicleid, Float:X, Float:Y, Float:Z);
+native SetVehicleAngularVelocity(vehicleid, Float:X, Float:Y, Float:Z);
 native GetVehicleDamageStatus(vehicleid, &panels, &doors, &lights, &tires);
 native UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
 

@@ -12,7 +12,7 @@
 
 // Objects
 
-native CreateObject(modelid, Float:X, Float:Y, Float:Z, Float:rX, Float:rY, Float:rZ);
+native CreateObject(modelid, Float:X, Float:Y, Float:Z, Float:rX, Float:rY, Float:rZ, Float:DrawDistance = 0.0);
 native SetObjectPos(objectid, Float:X, Float:Y, Float:Z);
 native GetObjectPos(objectid, &Float:X, &Float:Y, &Float:Z);
 native SetObjectRot(objectid, Float:RotX, Float:RotY, Float:RotZ);
@@ -21,7 +21,7 @@ native IsValidObject(objectid);
 native DestroyObject(objectid);
 native MoveObject(objectid, Float:X, Float:Y, Float:Z, Float:Speed);
 native StopObject(objectid);
-native CreatePlayerObject(playerid, modelid, Float:X, Float:Y, Float:Z, Float:rX, Float:rY, Float:rZ);
+native CreatePlayerObject(playerid, modelid, Float:X, Float:Y, Float:Z, Float:rX, Float:rY, Float:rZ, Float:DrawDistance = 0.0);
 native SetPlayerObjectPos(playerid, objectid, Float:X, Float:Y, Float:Z);
 native GetPlayerObjectPos(playerid, objectid, &Float:X, &Float:Y, &Float:Z);
 native SetPlayerObjectRot(playerid, objectid, Float:RotX, Float:RotY, Float:RotZ);

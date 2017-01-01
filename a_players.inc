@@ -113,6 +113,9 @@ native PlayCrimeReportForPlayer(playerid, suspectid, crime);
 native SetPlayerShopName(playerid, shopname[]);
 native SetPlayerSkillLevel(playerid, skill, level);
 native GetPlayerSurfingVehicleID(playerid);
+native SetPlayerHoldingObject(playerid, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0);
+native StopPlayerHoldingObject(playerid);
+native IsPlayerHoldingObject(playerid);
 
 // Per-player variable system (PVars)
 native SetPVarInt(playerid, varname[], int_value);
@@ -143,8 +146,10 @@ native GetPlayerVehicleSeat(playerid);
 native RemovePlayerFromVehicle(playerid);
 native TogglePlayerControllable(playerid, toggle);
 native PlayerPlaySound(playerid, soundid, Float:x, Float:y, Float:z);
-native ApplyAnimation(playerid, animlib[], animname[], Float:fS, opt1, opt2, opt3, opt4, opt5);
-native ClearAnimations(playerid);
+native ApplyAnimation(playerid, animlib[], animname[], Float:fDelta, loop, lockx, locky, freeze, time, forcesync = 0);
+native ClearAnimations(playerid, forcesync = 0);
+native GetPlayerAnimationIndex(playerid); // return the index of any running applied animations (0 if none are running)
+native GetAnimationName(index, animlib[], len1, animname[], len2); // get the animation lib/name for the index
 native GetPlayerSpecialAction(playerid);
 native SetPlayerSpecialAction(playerid,actionid);
 
@@ -166,7 +171,6 @@ native SetPlayerCameraLookAt(playerid, Float:x, Float:y, Float:z);
 native SetCameraBehindPlayer(playerid);
 native GetPlayerCameraPos(playerid, &Float:x, &Float:y, &Float:z);
 native GetPlayerCameraFrontVector(playerid, &Float:x, &Float:y, &Float:z);
-native GetPlayerCameraUpVector(playerid, &Float:x, &Float:y, &Float:z);
 
 // Player conditionals
 native IsPlayerConnected(playerid);

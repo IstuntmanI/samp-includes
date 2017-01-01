@@ -1,6 +1,6 @@
- /*  SA:MP Native SQLite Database Functions
+ /*  SA-MP Native SQLite Database Functions
  *
- *  (c) Copyright 2007, SA:MP Team
+ *  (c) Copyright 2007, SA-MP Team
  *
  */
 
