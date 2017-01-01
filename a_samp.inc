@@ -1,6 +1,6 @@
 /*  SA-MP Functions
  *
- *  (c) Copyright 2005-2009, SA-MP Team
+ *  (c) Copyright 2005-2010, SA-MP Team
  *
  */
 
@@ -65,7 +65,6 @@ native SetTimerEx(funcname[], interval, repeating, const format[], {Float,_}:...
 native KillTimer(timerid);
 native GetTickCount();
 native GetMaxPlayers();
-native LimitGlobalChatRadius(Float:chat_radius);
 native CallRemoteFunction(const function[], const format[], {Float,_}:...);
 native CallLocalFunction(const function[], const format[], {Float,_}:...);
 native Float:asin(Float:value);
@@ -100,6 +99,8 @@ native UsePlayerPedAnims();		// Will cause the players to use CJ running/walking
 native DisableInteriorEnterExits();  // will disable all interior enter/exits in the game.
 native SetNameTagDrawDistance(Float:distance); // Distance at which nametags will start rendering on the client.
 native DisableNameTagLOS(); // Disables the nametag Line-Of-Sight checking
+native LimitGlobalChatRadius(Float:chat_radius);
+native LimitPlayerMarkerRadius(Float:marker_radius);
 
 // Npc
 native ConnectNPC(name[], script[]);
@@ -301,6 +302,7 @@ forward OnVehicleMod(playerid, vehicleid, componentid);
 forward OnEnterExitModShop(playerid, enterexit, interiorid);
 forward OnVehiclePaintjob(playerid, vehicleid, paintjobid);
 forward OnVehicleRespray(playerid, vehicleid, color1, color2);
+forward OnVehicleDamageStatusUpdate(vehicleid, playerid);
 forward OnPlayerSelectedMenuRow(playerid, row);
 forward OnPlayerExitedMenu(playerid);
 forward OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);

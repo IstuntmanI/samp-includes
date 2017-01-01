@@ -1,6 +1,6 @@
 /*  SA-MP Player Functions
  *
- *  (c) Copyright 2005-2009, SA-MP Team
+ *  (c) Copyright 2005-2010, SA-MP Team
  *
  */
 
@@ -47,6 +47,12 @@
 #define WEAPONSKILL_M4					9
 #define WEAPONSKILL_SNIPERRIFLE			10
 
+#define WEAPONSTATE_UNKNOWN				-1
+#define WEAPONSTATE_NO_BULLETS			0
+#define WEAPONSTATE_LAST_BULLET			1
+#define WEAPONSTATE_MORE_BULLETS		2
+#define WEAPONSTATE_RELOADING			3
+
 // Player
 native SetSpawnInfo(playerid, team, skin, Float:x, Float:y, Float:z, Float:rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
 native SpawnPlayer(playerid);
@@ -67,6 +73,7 @@ native SetPlayerArmour(playerid, Float:armour);
 native GetPlayerArmour(playerid, &Float:armour);
 native SetPlayerAmmo(playerid, weaponslot, ammo);
 native GetPlayerAmmo(playerid);
+native GetPlayerWeaponState(playerid);
 native SetPlayerTeam(playerid, teamid);
 native GetPlayerTeam(playerid);
 native SetPlayerScore(playerid,score);
@@ -107,6 +114,25 @@ native SetPlayerShopName(playerid, shopname[]);
 native SetPlayerSkillLevel(playerid, skill, level);
 native GetPlayerSurfingVehicleID(playerid);
 
+// Per-player variable system (PVars)
+native SetPVarInt(playerid, varname[], int_value);
+native GetPVarInt(playerid, varname[]);
+native SetPVarString(playerid, varname[], string_value[]);
+native GetPVarString(playerid, varname[], string_return[], len);
+native SetPVarFloat(playerid, varname[], Float:float_value);
+native Float:GetPVarFloat(playerid, varname[]);
+native DeletePVar(playerid, varname[]);
+
+// PVar enumeration
+#define PLAYER_VARTYPE_NONE			0
+#define PLAYER_VARTYPE_INT			1
+#define PLAYER_VARTYPE_STRING		2
+#define PLAYER_VARTYPE_FLOAT		3
+
+native GetPVarsUpperIndex(playerid);
+native GetPVarNameAtIndex(playerid, index, ret_varname[], ret_len);
+native GetPVarType(playerid, varname[]);
+
 #define MAX_CHATBUBBLE_LENGTH 144
 native SetPlayerChatBubble(playerid, text[], color, Float:drawdistance, expiretime);
 
@@ -122,7 +148,7 @@ native ClearAnimations(playerid);
 native GetPlayerSpecialAction(playerid);
 native SetPlayerSpecialAction(playerid,actionid);
 
-// Player map commands
+// Player world/map related
 native SetPlayerCheckpoint(playerid, Float:x, Float:y, Float:z, Float:size);
 native DisablePlayerCheckpoint(playerid);
 native SetPlayerRaceCheckpoint(playerid, type, Float:x, Float:y, Float:z, Float:nextx, Float:nexty, Float:nextz, Float:size);
@@ -132,10 +158,15 @@ native SetPlayerMarkerForPlayer(playerid, showplayerid, color);
 native ShowPlayerNameTagForPlayer(playerid, showplayerid, show);
 native SetPlayerMapIcon(playerid, iconid, Float:x, Float:y, Float:z, markertype, color);
 native RemovePlayerMapIcon(playerid, iconid);
+native AllowPlayerTeleport(playerid, allow);
+
+// Player camera
 native SetPlayerCameraPos(playerid,Float:x, Float:y, Float:z);
 native SetPlayerCameraLookAt(playerid, Float:x, Float:y, Float:z);
 native SetCameraBehindPlayer(playerid);
-native AllowPlayerTeleport(playerid, allow);
+native GetPlayerCameraPos(playerid, &Float:x, &Float:y, &Float:z);
+native GetPlayerCameraFrontVector(playerid, &Float:x, &Float:y, &Float:z);
+native GetPlayerCameraUpVector(playerid, &Float:x, &Float:y, &Float:z);
 
 // Player conditionals
 native IsPlayerConnected(playerid);

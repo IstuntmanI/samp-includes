@@ -53,6 +53,8 @@ native GetVehicleComponentType(component); // Find CARMODTYPE_* for component id
 native RepairVehicle(vehicleid); // Repairs the damage model and resets the health
 native GetVehicleVelocity(vehicleid, &Float:X, &Float:Y, &Float:Z);
 native SetVehicleVelocity(vehicleid, Float:X, Float:Y, Float:Z);
+native GetVehicleDamageStatus(vehicleid, &panels, &doors, &lights, &tires);
+native UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
 
 // Virtual Worlds
 native SetVehicleVirtualWorld(vehicleid, worldid);
