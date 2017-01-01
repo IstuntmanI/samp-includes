@@ -1,6 +1,6 @@
 /*  SA-MP Vehicle Functions
  *
- *  (c) Copyright 2005-2009, SA-MP Team
+ *  (c) Copyright 2005-2010, SA-MP Team
  *
  */
 
@@ -25,6 +25,10 @@
 #define CARMODTYPE_VENT_RIGHT	12
 #define CARMODTYPE_VENT_LEFT	13
 
+#define VEHICLE_PARAMS_UNSET	-1
+#define VEHICLE_PARAMS_OFF		0
+#define VEHICLE_PARAMS_ON		1
+
 // Vehicle
 native CreateVehicle(vehicletype, Float:x, Float:y, Float:z, Float:rotation, color1, color2, respawn_delay);
 native DestroyVehicle(vehicleid);
@@ -35,6 +39,9 @@ native GetVehicleZAngle(vehicleid, &Float:z_angle);
 native GetVehicleRotationQuat(vehicleid, &Float:w, &Float:x, &Float:y, &Float:z);
 native SetVehicleZAngle(vehicleid, Float:z_angle);
 native SetVehicleParamsForPlayer(vehicleid,playerid,objective,doorslocked);
+native ManualVehicleEngineAndLights();
+native SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
+native GetVehicleParamsEx(vehicleid, &engine, &lights, &alarm, &doors, &bonnet, &boot, &objective);
 native SetVehicleToRespawn(vehicleid);
 native LinkVehicleToInterior(vehicleid, interiorid);
 native AddVehicleComponent(vehicleid, componentid);

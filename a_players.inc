@@ -113,9 +113,14 @@ native PlayCrimeReportForPlayer(playerid, suspectid, crime);
 native SetPlayerShopName(playerid, shopname[]);
 native SetPlayerSkillLevel(playerid, skill, level);
 native GetPlayerSurfingVehicleID(playerid);
-native SetPlayerHoldingObject(playerid, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0);
-native StopPlayerHoldingObject(playerid);
-native IsPlayerHoldingObject(playerid);
+
+// Attached to bone objects
+
+#define MAX_PLAYER_ATTACHED_OBJECTS 5 // This is the number of attached indexes available ie 5 = 0-4
+
+native SetPlayerAttachedObject(playerid, index, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0, Float:fScaleX = 1.0, Float:fScaleY = 1.0, Float:fScaleZ = 1.0);
+native RemovePlayerAttachedObject(playerid, index);
+native IsPlayerAttachedObjectSlotUsed(playerid, index);
 
 // Per-player variable system (PVars)
 native SetPVarInt(playerid, varname[], int_value);
@@ -161,8 +166,15 @@ native DisablePlayerRaceCheckpoint(playerid);
 native SetPlayerWorldBounds(playerid,Float:x_max,Float:x_min,Float:y_max,Float:y_min);
 native SetPlayerMarkerForPlayer(playerid, showplayerid, color);
 native ShowPlayerNameTagForPlayer(playerid, showplayerid, show);
-native SetPlayerMapIcon(playerid, iconid, Float:x, Float:y, Float:z, markertype, color);
+
+#define MAPICON_LOCAL			  0 // displays in the player's local are
+#define MAPICON_GLOBAL			  1 // displays always
+#define MAPICON_LOCAL_CHECKPOINT  2 // displays in the player's local area and has a checkpoint marker
+#define MAPICON_GLOBAL_CHECKPOINT 3 // displays always and has a checkpoint marker
+
+native SetPlayerMapIcon(playerid, iconid, Float:x, Float:y, Float:z, markertype, color, style = MAPICON_LOCAL);
 native RemovePlayerMapIcon(playerid, iconid);
+
 native AllowPlayerTeleport(playerid, allow);
 
 // Player camera

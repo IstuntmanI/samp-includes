@@ -1,6 +1,6 @@
 /*  SA-MP Object Functions
  *
- *  (c) Copyright 2005-2009, SA-MP Team
+ *  (c) Copyright 2005-2010, SA-MP Team
  *
  */
 
@@ -13,6 +13,7 @@
 // Objects
 
 native CreateObject(modelid, Float:X, Float:Y, Float:Z, Float:rX, Float:rY, Float:rZ, Float:DrawDistance = 0.0);
+native AttachObjectToVehicle(objectid, vehicleid, Float:fOffsetX, Float:fOffsetY, Float:fOffsetZ, Float:fRotX, Float:fRotY, Float:RotZ);
 native SetObjectPos(objectid, Float:X, Float:Y, Float:Z);
 native GetObjectPos(objectid, &Float:X, &Float:Y, &Float:Z);
 native SetObjectRot(objectid, Float:RotX, Float:RotY, Float:RotZ);
