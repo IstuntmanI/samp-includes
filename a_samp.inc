@@ -115,6 +115,8 @@ native SendRconCommand(command[]);
 native GetServerVarAsString(const varname[], buffer[], len);
 native GetServerVarAsInt(const varname[]);
 native GetServerVarAsBool(const varname[]);
+native GetPlayerNetworkStats(playerid, retstr[], retstr_size);
+native GetNetworkStats(retstr[], retstr_size);
 
 // Menu
 native Menu:CreateMenu(const title[], columns, Float:x, Float:y, Float:col1width, Float:col2width = 0.0);
@@ -303,6 +305,7 @@ forward OnEnterExitModShop(playerid, enterexit, interiorid);
 forward OnVehiclePaintjob(playerid, vehicleid, paintjobid);
 forward OnVehicleRespray(playerid, vehicleid, color1, color2);
 forward OnVehicleDamageStatusUpdate(vehicleid, playerid);
+forward OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat);
 forward OnPlayerSelectedMenuRow(playerid, row);
 forward OnPlayerExitedMenu(playerid);
 forward OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);

@@ -64,6 +64,7 @@ native GetPlayerPos(playerid, &Float:x, &Float:y, &Float:z);
 native SetPlayerFacingAngle(playerid,Float:ang);
 native GetPlayerFacingAngle(playerid,&Float:ang);
 native IsPlayerInRangeOfPoint(playerid, Float:range, Float:x, Float:y, Float:z);
+native Float:GetPlayerDistanceFromPoint(playerid, Float:X, Float:Y, Float:Z);
 native IsPlayerStreamedIn(playerid, forplayerid);
 native SetPlayerInterior(playerid,interiorid);
 native GetPlayerInterior(playerid);
@@ -113,6 +114,7 @@ native PlayCrimeReportForPlayer(playerid, suspectid, crime);
 native SetPlayerShopName(playerid, shopname[]);
 native SetPlayerSkillLevel(playerid, skill, level);
 native GetPlayerSurfingVehicleID(playerid);
+native GetPlayerSurfingObjectID(playerid);
 
 // Attached to bone objects
 
@@ -183,6 +185,7 @@ native SetPlayerCameraLookAt(playerid, Float:x, Float:y, Float:z);
 native SetCameraBehindPlayer(playerid);
 native GetPlayerCameraPos(playerid, &Float:x, &Float:y, &Float:z);
 native GetPlayerCameraFrontVector(playerid, &Float:x, &Float:y, &Float:z);
+native GetPlayerCameraMode(playerid);
 
 // Player conditionals
 native IsPlayerConnected(playerid);

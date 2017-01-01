@@ -37,6 +37,7 @@ native GetVehiclePos(vehicleid, &Float:x, &Float:y, &Float:z);
 native SetVehiclePos(vehicleid, Float:x, Float:y, Float:z);
 native GetVehicleZAngle(vehicleid, &Float:z_angle);
 native GetVehicleRotationQuat(vehicleid, &Float:w, &Float:x, &Float:y, &Float:z);
+native Float:GetVehicleDistanceFromPoint(vehicleid, Float:X, Float:Y, Float:Z);
 native SetVehicleZAngle(vehicleid, Float:z_angle);
 native SetVehicleParamsForPlayer(vehicleid,playerid,objective,doorslocked);
 native ManualVehicleEngineAndLights();
